@@ -59,8 +59,7 @@ spec:
         volumeMounts:
         - name: mysql
           mountPath: /var/lib/mysql
-  #this is the PVC defintion
-  volumeClaimTemplates:
+  volumeClaimTemplates:      #this is the PVC defintion
   - metadata:
       name: mysql
     spec:
