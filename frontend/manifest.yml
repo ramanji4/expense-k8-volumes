@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: expense
+  labels:         #these are replicaset service labels
+    app: frontend
+    tier: web
+    project: expense
+spec:
+  replicas: 2
+  selector:       #these are used to select the pod to create replicas
+    matchLabels:  #matchlabels should match with pod level labels 
+      app: frontend
+      tier: web
+      project: expense
+  template:       #this is the pod definition
+    metadata:
+      labels:     #these labels are belongs to pod
+        app: frontend
+        tier: web
+        project: expense
+    spec:
+      containers:
+      - name: frontend
+        image: ramanji4/frontend:v1
+---
+
+apiVersion: v1
+apiVersion: Service
+metadata:
+  name: frontend
+  namespace: expense
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+    tier: web
+    project: expense
+  ports:
+  - name: frontend-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
